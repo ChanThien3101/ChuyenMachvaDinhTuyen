@@ -1,0 +1,408 @@
+building1-acc1:
+int f0/1
+sw mode trunk
+ex
+
+int f0/2
+sw mode acc
+sw acc vlan 10
+ex
+
+int f0/3
+sw mode acc
+sw acc vlan 20
+ex
+
+
+
+
+
+
+building1-acc2:
+int f0/1
+sw mode trunk
+ex
+
+
+
+
+
+
+
+building1-acc3:
+int f0/1
+sw mode acc
+sw acc vlan 10
+
+int f0/2
+sw mode acc
+sw acc vlan 10
+ex
+
+int f0/3
+sw mode acc
+sw acc vlan 20
+ex
+
+
+
+
+
+building1-acc4:
+
+
+
+
+
+building1-dist1:
+int range f0/1-2
+sw mode trunk
+ex
+
+vtp domain CISCO	
+vtp mode server
+
+vlan 10
+vlan 20
+vlan 30
+vlan 40
+vlan 50
+ex
+
+int range  f0/3-4
+sw mode trunk
+
+
+
+
+
+
+
+
+
+building1-dist2:
+int range f0/1-2
+sw mode trunk
+ex
+
+vtp domain CISCO	
+vtp mode server
+
+int range  f0/3-4
+sw mode trunk
+ex
+
+
+
+
+
+
+
+
+
+building1-core1:
+int range f0/3-5
+sw trunk encap dot1q
+sw mode trunk
+ex
+
+vtp domain CISCO	
+vtp mode client
+
+spanning-tree vlan 10 root primary
+
+int vlan 10
+ip add 10.1.10.1 255.255.255.0
+no shut
+ex
+
+int vlan 20
+ip add 10.1.20.1 255.255.255.0
+no shut
+ex
+
+ip routing
+
+int f0/1
+no sw
+ip add 172.16.1.2 255.255.255.0
+no shut
+
+router ospf 1
+network 10.1.10.0 0.0.0.255 area 0
+network 10.1.20.0 0.0.0.255 area 0
+network 172.16.0.0 0.0.255.255 area 0
+
+int vlan 10
+ip helper-address 10.4.0.5
+int vlan 20
+ip helper-address 10.4.0.5
+
+access-list 10 deny 10.1.20.0 0.0.0.255
+access-list 10 permit any
+
+access-list 20 deny 10.1.10.0 0.0.0.255
+access-list 20 permit any
+
+int vlan 10
+ip access-group 10 out
+ex
+
+int vlan 20
+ip access-group 20 out
+ex
+
+
+
+
+
+
+
+building1-core2:
+int range f0/3-5
+sw trunk encap dot1q
+sw mode trunk
+ex
+
+vtp domain CISCO	
+vtp mode client
+
+spanning-tree vlan 10 root secondary
+
+int vlan 10
+ip add 10.1.10.2 255.255.255.0
+no shut
+ex
+
+int vlan 20
+ip add 10.1.20.2 255.255.255.0
+no shut
+ex
+
+ip routing
+
+int f0/1
+no sw
+ip add 172.16.2.2 255.255.255.0
+no shut
+
+router ospf 1
+network 10.1.10.0 0.0.0.255 area 0
+network 10.1.20.0 0.0.0.255 area 0
+network 172.16.0.0 0.0.255.255 area 0
+ex
+
+int vlan 10
+ip helper-address 10.4.0.5
+int vlan 20
+ip helper-address 10.4.0.5
+
+access-list 10 deny 192.168.20.0 0.0.0.255
+access-list 10 permit any
+
+access-list 20 deny 192.168.10.0 0.0.0.255
+access-list 20 permit any
+
+int vlan 10
+ip access-group 10 out
+ex
+
+int vlan 20
+ip access-group 20 out
+ex
+
+
+
+
+
+
+
+building1-server:
+
+
+
+
+
+
+
+building1-router:
+cau hinh ip cho s0/0/0, s0/0/1
+no sh
+
+router ospf 1
+network 10.4.0.0 0.0.255.255 area 0
+network 172.16.0.0 0.0.255.255 area 0
+
+building2-router:
+cau hinh ip
+no sh
+
+router ospf 1
+network 200.20.4.0 area 0
+network 200.20.3.0 area 0
+network 172.16.4.0 area 0
+network 172.16.3.0 area 0
+ex
+
+
+
+
+
+building2-router:
+router ospf 1
+network 172.16.0.0 0.0.255.255 area 0
+ex
+
+
+building2-core1:
+cau hinh ip port,vlan
+
+router ospf 1
+network 10.2.10.0 0.0.0.255 area 0
+network 10.2.20.0 0.0.0.255 area 0
+network 172.16.0.0 0.0.255.255 area 0
+ex
+
+
+
+
+
+buiding2-core2:
+cau hinh ip port,vlan
+
+
+
+
+building3-router:
+cau hinh ip
+no shut
+
+router ospf 1
+network 200.20.2.0 area 0
+network 200.20.3.0 area 0
+network 172.16.6.0 area 0
+network 172.16.5.0 area 0
+ex
+
+
+
+
+
+
+buiding3-core1:
+int f0/1
+no sw
+ip add 172.16.6.2 255.255.255.0
+no shut
+ex
+
+int vlan 10
+ip add 10.3.10.1 255.255.255.0
+no sh
+ex
+
+int vlan 20
+ip add 10.3.20.1 255.255.255.0
+no sh
+ex
+
+router ospf 1
+network 172.16.0.0 0.0.255.255 area 0
+network 10.3.10.0 0.0.0.255 area 0
+network 10.3.20.0 0.0.0.255 area 0
+ex
+
+int vlan 10
+ip helper-address 10.4.0.5
+
+int vlan 20
+ip helper-address 10.4.0.5
+
+access-list 10 deny 10.3.20.0 0.0.0.255
+access-list 10 permit any
+
+access-list 20 deny 10.3.10.0 0.0.0.255
+access-list 20 permit any
+
+int vlan 10
+ip access-group 10 out
+
+int vlan 20
+ip access-group 20 out
+ex
+
+
+
+
+
+
+
+
+buiding3-core2:
+int f0/1
+no sw
+ip add 172.16.5.2 255.255.255.0
+no shut
+ex
+
+int vlan 10
+ip add 10.3.10.2 255.255.255.0
+no sh
+ex
+
+int vlan 20
+ip add 10.3.20.2 255.255.255.0
+no sh
+ex
+
+router ospf 1
+network 172.16.0.0 0.0.255.255 area 0
+network 10.3.10.0 0.0.0.255 area 0
+network 10.3.20.0 0.0.0.255 area 0
+ex
+
+int vlan 10
+ip helper-address 10.4.0.5
+
+int vlan 20
+ip helper-address 10.4.0.5
+
+access-list 10 deny 172.16.20.0 0.0.0.255
+access-list 10 permit any
+
+access-list 20 deny 172.16.10.0 0.0.0.255
+access-list 20 permit any
+
+int vlan 10
+ip access-group 10 out
+
+int vlan 20
+ip access-group 20 out
+ex
+
+
+
+
+
+
+
+buiding3-acc1:
+cau hinh trunk
+
+
+
+
+
+buiding3-acc2:
+cau hinh trunk
+
+
+
+
+-------------------------
+no ospf
+no access-list 10
+no access-list 20
+
+
+

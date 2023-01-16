@@ -1,0 +1,117 @@
+CHƯƠNG 1 - MỘT SỐ KHÁI NIỆM CƠ BẢN VỀ CHUYỂN MẠCH VÀ ĐỊNH TUYẾN
+1.1 Khái niệm về chuyển mạch
+1.1.1 Tổng quan về mạng nội bộ LAN
+1.1.2 Vận hành thiết bị trong mạng LAN
+1.1.3 Mạng nội bộ ảo - VLAN
+1.1.4 Giao thức STP
+1.2 Khái niệm về định tuyến
+1.2.1 Địa chỉ IP và phân mạng con
+1.2.2 Vận hành Router
+1.2.3 Định tuyến tĩnh và con đường kết nối trực tiếp
+1.2.4 Giao thức định tuyến
+CHƯƠNG 2 - PH N TÍCH VÀ THIẾT KẾ HỆ THỐNG MẠNG CHO CÔNG TY CỔ PHẦN VIỄN THÔNG 2D
+2.1 Giới thiệu về công ty 
+2.2 Phân tích và thiết kế hệ thống mạng cho công ty 
+2.2.1 Hạ tầng mạng (thiết kế, địa chỉ ip,..)
+Lập bảng có tên thiết bị cụ thể
+Địa chỉ ip
+2.2.2 Mô tả các thuật toán, bài toán trong hệ thống mạng
+2.2.3 Giả thiết mô phỏng mô hình, các tính dự phòng mô hình
+2.3 Bảng chi tiết thiết bị, chi phí thiết bị
+CHƯƠNG 3 - TRIỂN KHAI THỰC NGHIỆM
+ 3.1 Triển khai cấu hình(demo chạy, các code cấu hình các route, sw3, ...), trong mô hình thực nghiệm nhóm triển khai thực hiện Cisco(), các sw?? được thay thế bởi các sw??
+3.2 Show code, mang tính tượng trưng
+CHƯƠNG 4 - KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN  
+
+
+access-list 10 deny 10.1.20.0 0.0.0.255
+access-list 10 deny 10.1.30.0 0.0.0.255
+access-list 10 deny 10.1.40.0 0.0.0.255
+access-list 10 deny 10.1.50.0 0.0.0.255
+access-list 10 deny 10.2.20.0 0.0.0.255
+access-list 10 deny 10.3.20.0 0.0.0.255
+access-list 10 deny 10.2.60.0 0.0.0.255
+access-list 10 deny 10.3.60.0 0.0.0.255
+access-list 10 permit any
+
+
+access-list 20 deny 10.1.10.0 0.0.0.255
+access-list 20 deny 10.1.30.0 0.0.0.255
+access-list 20 deny 10.1.40.0 0.0.0.255
+access-list 20 deny 10.1.50.0 0.0.0.255
+
+access-list 20 deny 10.2.10.0 0.0.0.255
+access-list 20 deny 10.3.10.0 0.0.0.255
+access-list 20 deny 10.2.60.0 0.0.0.255
+access-list 20 deny 10.3.60.0 0.0.0.255
+access-list 20 permit any
+
+
+
+access-list 30 deny 10.1.10.0 0.0.0.255
+access-list 30 deny 10.1.20.0 0.0.0.255
+access-list 30 deny 10.1.40.0 0.0.0.255
+access-list 30 deny 10.1.50.0 0.0.0.255
+
+access-list 30 deny 10.2.10.0 0.0.0.255
+access-list 30 deny 10.3.10.0 0.0.0.255
+access-list 30 deny 10.2.20.0 0.0.0.255
+access-list 30 deny 10.3.20.0 0.0.0.255
+access-list 30 deny 10.2.60.0 0.0.0.255
+access-list 30 deny 10.3.60.0 0.0.0.255
+
+access-list 30 permit any
+
+
+
+access-list 40 deny 10.1.10.0 0.0.0.255
+access-list 40 deny 10.1.20.0 0.0.0.255
+access-list 40 deny 10.1.30.0 0.0.0.255
+access-list 40 deny 10.1.50.0 0.0.0.255
+
+access-list 40 deny 10.2.10.0 0.0.0.255
+access-list 40 deny 10.3.10.0 0.0.0.255
+access-list 40 deny 10.2.20.0 0.0.0.255
+access-list 40 deny 10.3.20.0 0.0.0.255
+access-list 40 deny 10.2.60.0 0.0.0.255
+access-list 40 deny 10.3.60.0 0.0.0.255
+
+access-list 40 permit any
+
+access-list 50 deny 10.1.10.0 0.0.0.255
+access-list 50 deny 10.1.20.0 0.0.0.255
+access-list 50 deny 10.1.30.0 0.0.0.255
+access-list 50 deny 10.1.40.0 0.0.0.255
+
+access-list 50 deny 10.2.10.0 0.0.0.255
+access-list 50 deny 10.3.10.0 0.0.0.255
+access-list 50 deny 10.2.20.0 0.0.0.255
+access-list 50 deny 10.3.20.0 0.0.0.255
+access-list 50 deny 10.2.60.0 0.0.0.255
+access-list 50 deny 10.3.60.0 0.0.0.255
+
+access-list 50 permit any
+
+int vlan 10
+ip access-group 10 out
+ex
+
+int vlan 20
+ip access-group 20 out
+ex
+
+int vlan 30
+ip access-group 30 out
+ex
+
+int vlan 40
+ip access-group 40 out
+ex
+
+int vlan 50
+ip access-group 50 out
+
+
+
+ex
+
